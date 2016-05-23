@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@import Foundation;
 @interface ViewController : UIViewController
+{
+    UILabel*label;
+}
 
-
+    
 @end
+
 
