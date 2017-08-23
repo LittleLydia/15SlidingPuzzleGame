@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
+
 @import Foundation;
+
+
 @interface ViewController : UIViewController
 {
     UILabel*label;

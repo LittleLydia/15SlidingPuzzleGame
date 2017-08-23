@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0006138E1D0719BA00A02650 /* extraordinary.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0006138D1D0719BA00A02650 /* extraordinary.mp3 */; };
+		003124521EF82755004E3CA1 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 003124511EF82755004E3CA1 /* timg.jpg */; };
 		0089BCFE1CEA328E00E91680 /* yellowbg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0089BCFD1CEA328E00E91680 /* yellowbg.jpg */; };
 		00DAC04C1CCFA181004AD088 /* famous.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00DAC04B1CCFA181004AD088 /* famous.jpg */; };
 		5835A0E61C86AC5B00E3DFC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5835A0E51C86AC5B00E3DFC0 /* main.m */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0006138D1D0719BA00A02650 /* extraordinary.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = extraordinary.mp3; sourceTree = "<group>"; };
+		003124511EF82755004E3CA1 /* timg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpg; sourceTree = "<group>"; };
 		0089BCFD1CEA328E00E91680 /* yellowbg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yellowbg.jpg; sourceTree = "<group>"; };
 		00DAC04B1CCFA181004AD088 /* famous.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = famous.jpg; sourceTree = "<group>"; };
 		5835A0E11C86AC5B00E3DFC0 /* 15puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 15puzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +116,8 @@
 				5835A10A1C86AE2D00E3DFC0 /* jc_16.jpg */,
 				00DAC04B1CCFA181004AD088 /* famous.jpg */,
 				0089BCFD1CEA328E00E91680 /* yellowbg.jpg */,
+				0006138D1D0719BA00A02650 /* extraordinary.mp3 */,
+				003124511EF82755004E3CA1 /* timg.jpg */,
 				5835A0E71C86AC5B00E3DFC0 /* AppDelegate.h */,
 				5835A0E81C86AC5B00E3DFC0 /* AppDelegate.m */,
 				5835A0EA1C86AC5B00E3DFC0 /* ViewController.h */,
@@ -207,11 +213,13 @@
 				5835A10D1C86AE2D00E3DFC0 /* jc_03.jpg in Resources */,
 				5835A1101C86AE2D00E3DFC0 /* jc_06.jpg in Resources */,
 				5835A1181C86AE2D00E3DFC0 /* jc_14.jpg in Resources */,
+				003124521EF82755004E3CA1 /* timg.jpg in Resources */,
 				5835A1141C86AE2D00E3DFC0 /* jc_10.jpg in Resources */,
 				5835A1131C86AE2D00E3DFC0 /* jc_09.jpg in Resources */,
 				5835A10C1C86AE2D00E3DFC0 /* jc_02.jpg in Resources */,
 				5835A0EF1C86AC5B00E3DFC0 /* Main.storyboard in Resources */,
 				0089BCFE1CEA328E00E91680 /* yellowbg.jpg in Resources */,
+				0006138E1D0719BA00A02650 /* extraordinary.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +345,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = 15puzzle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lydia.-5puzzle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -351,6 +360,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = 15puzzle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lydia.-5puzzle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
