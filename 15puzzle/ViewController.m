@@ -28,23 +28,19 @@ NSMutableDictionary *imagedict;
 UILabel *label;
 
 _Bool running = FALSE;
-//bool paused=FALSE;
-NSTimer *clockTicks;
+NSTimer *clockTicks;//计时器
 NSDate *start_date;
 UIImage *theImage;
-//NSDate *pause_date;
-UIButton *getImageButton;
+UIButton *getImageButton;//获取相册图片按钮
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-  
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    
+    //显示游戏时间label
     label=[[UILabel alloc] initWithFrame: CGRectMake(10.5, HEIGHT-50, 150, 50)];
     [self.view addSubview:label];
-    
     //label.backgroundColor = [[UIColor alloc] initWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
     label.text = @"00:00.00";
     
@@ -54,39 +50,9 @@ UIButton *getImageButton;
     [getImageButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
     [getImageButton addTarget:self action:@selector(pickTheImage) forControlEvents:UIControlEventTouchUpInside];
     
-   
-
-    /*
-    startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];         //边框设置
-    startButton.frame=CGRectMake(10,475,40,30);                                   //位置及大小
-    startButton.backgroundColor = [UIColor clearColor];
-    [startButton setTitle:@"Start" forState:UIControlStateNormal];//按钮的提示字
-    [startButton setEnabled:true];
-    startButton.titleLabel.font = [UIFont fontWithName:@"helvetica" size:12];           //设置字体大小
-    //设置背景图片
-    [self.view addSubview:startButton];
-    [startButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
-    
-     resetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];         //边框设置
-    resetButton.frame = CGRectMake(50, 475, 50, 30);                                   //位置及大小
-    resetButton.backgroundColor = [UIColor clearColor];
-    [resetButton setTitle:@"Pause" forState:UIControlStateNormal];                      //按钮的提示字
-   [resetButton setEnabled:false];
-    resetButton.titleLabel.font = [UIFont fontWithName:@"helvetica" size:12];           //设置字体大小
- 
-    [self.view addSubview:resetButton];
-    [resetButton addTarget:self action:@selector(stop:)
-          forControlEvents:UIControlEventTouchUpInside];
-    */
-    
-    /* 如果想添加完整版的图片在视图上，也可以
-    UIImageView* completeImgView=[[UIImageView alloc] initWithFrame: CGRectMake(110,450,220,160)];
-    completeImgView.image=[UIImage imageNamed:[NSString stringWithFormat:@"famous.jpg"]];
-   
-    */
     allImgViews=[NSMutableArray new];
     allCenters=[NSMutableArray new];
-    
+/*大家可以从代码注释的轨迹看到写法历程，最开始用的是具体的数字，认为拼图游戏只能是正方形，之后拓展为长方形*/
 //    double xCen=46.875;  //xCen=RectLength/2; RectLength= viewLength/4=192
 //     double yCen=46.875;
 //    
@@ -194,6 +160,7 @@ BOOL hasTransformed;
         
         if(hasTransformed)
         {
+            //要在view原来的Transform的基础上在加上你想要的Transform
             CGAffineTransform transform = self.view.transform;
             self.view.transform = CGAffineTransformRotate(transform, M_PI/2);//CGAffineTransformMakeRotation(M_PI/2);
             self.view.bounds = CGRectMake(0, 0, WIDTH, HEIGHT);
@@ -224,8 +191,6 @@ BOOL hasTransformed;
         imageH = height/4;
         
       
-     
-        
     }
     else//如果宽度>长度
     {
@@ -286,13 +251,6 @@ BOOL hasTransformed;
     
 }
 
-
-
-
-
-
-
-
 -(void)playAudio
 {
     NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"extraordinary" ofType:@"mp3"];
@@ -312,7 +270,6 @@ BOOL hasTransformed;
 }
 
 CGPoint emptySpot;
-
 NSMutableArray* keyArray;
 - (void)randomizeBlocks
 {
@@ -327,12 +284,8 @@ NSMutableArray* keyArray;
         
         randLocInt=arc4random()%centersCopy.count;
         randLoc=[[centersCopy objectAtIndex:randLocInt] CGPointValue];
-        //[keyArray addObject:[NSNumber numberWithInt:randLocInt]];
-        //NSLog(@"keyArray:%@", keyArray);
         any.center=randLoc;
-        
         [centersCopy removeObjectAtIndex: randLocInt];
-        
         
     }
     emptySpot=[[centersCopy objectAtIndex:0] CGPointValue];
@@ -353,14 +306,14 @@ NSMutableArray* keyArray;
 
     
     
-bool isSolvable;
 
+#pragma mark 判断4*4的拼图游戏是否能成功拼成
+bool isSolvable;
 -(bool)ifIsSolvable{
     keyArray=[[NSMutableArray alloc] initWithCapacity:15];
     for(int b=0;b<15;b++){
         [keyArray addObject:[NSNumber numberWithInt:1]];
     }
-
     NSMutableArray* keyArrayCopy=[keyArray mutableCopy];
     NSMutableArray* allCentersCopy=[allCenters mutableCopy];
     for (int c=0;c<allCentersCopy.count;c++){
@@ -410,19 +363,15 @@ bool isSolvable;
                   {
                       m++;
                       
-                      
                   }
-                  
-                  
-                  
               }
-              
-              
+            
           }
           NSLog(@"m=%i",m);
           bool isSolvable=((k==3||k==7)&&m%2==0)||((k==1||k==5)&&m%2!=0);
-         if (isSolvable==false)
+    if (isSolvable==false){
             [self randomizeBlocks];
+    }
           return isSolvable;
     
 }
@@ -466,17 +415,18 @@ bool leftIsEmpty, rightIsEmpty, topIsEmpty, bottomIsEmpty;
 */
 -(BOOL)isCGPointsEqual :(CGPoint)point1 withNew : (CGPoint)point2
 {
-    NSString *point1X = [NSString stringWithFormat:@"%.2f",point1.x];
-    NSString *point2X = [NSString stringWithFormat:@"%.2f",point2.x];
-    NSString *point1Y = [NSString stringWithFormat:@"%.2f",point1.y];
-    NSString *point2Y = [NSString stringWithFormat:@"%.2f",point2.y];
-    //if((point1.x == point2.x)&&(point1.y == point2.y))
-    if([point1X isEqualToString:point2X] && [point1Y isEqualToString:point2Y])
-    {
-        return YES;
-    }
-    else
-        return NO;
+    BOOL isEqual = CGPointEqualToPoint(point1, point2);
+    return isEqual;
+//    NSString *point1X = [NSString stringWithFormat:@"%.2f",point1.x];
+//    NSString *point2X = [NSString stringWithFormat:@"%.2f",point2.x];
+//    NSString *point1Y = [NSString stringWithFormat:@"%.2f",point1.y];
+//    NSString *point2Y = [NSString stringWithFormat:@"%.2f",point2.y];
+//    if([point1X isEqualToString:point2X] && [point1Y isEqualToString:point2Y])
+//    {
+//        return YES;
+//    }
+//    else
+//        return NO;
     
 }
 
@@ -487,7 +437,7 @@ bool leftIsEmpty, rightIsEmpty, topIsEmpty, bottomIsEmpty;
     if(myTouch.view!=self.view)
     {
         tapCen=myTouch.view.center;
-        //NSLog(@"%@",emptySpot);
+       
         
 //        left=CGPointMake(tapCen.x - 93.75, tapCen.y);
 //        right=CGPointMake(tapCen.x+93.75, tapCen.y);
@@ -498,25 +448,13 @@ bool leftIsEmpty, rightIsEmpty, topIsEmpty, bottomIsEmpty;
         right=CGPointMake(tapCen.x+itemW, tapCen.y);
         top=CGPointMake(tapCen.x, tapCen.y-itemH);
         bottom=CGPointMake(tapCen.x, tapCen.y+itemH);
-        NSLog(@"top.x = %f, top.y = %f",top.x,top.y);
-        NSLog(@"bottom.x = %f, bottom.y = %f",bottom.x,bottom.y);
-        NSLog(@"emptySpot.x = %f, emptySpot.y = %f",emptySpot.x,emptySpot.y);
         
-        
-//        if([[NSValue valueWithCGPoint:left] isEqual: [NSValue valueWithCGPoint:emptySpot]])  leftIsEmpty= true;
-//        
-//        if([[NSValue valueWithCGPoint:right] isEqual: [NSValue valueWithCGPoint:emptySpot]])  rightIsEmpty= true;
-//        
-//        if([[NSValue valueWithCGPoint:top] isEqual: [NSValue valueWithCGPoint:emptySpot]])  topIsEmpty= true;
-//        
-//        if([[NSValue valueWithCGPoint:bottom] isEqual: [NSValue valueWithCGPoint:emptySpot]])  bottomIsEmpty= true;
-        
+
          leftIsEmpty = [self isCGPointsEqual:left withNew:emptySpot];
          rightIsEmpty = [self isCGPointsEqual:right withNew:emptySpot];
          topIsEmpty = [self isCGPointsEqual:top withNew:emptySpot];
          bottomIsEmpty = [self isCGPointsEqual:bottom withNew:emptySpot];
-        
-        //NSLog(@"leftIsEmpty = %d, rightIsEmpty=%d,topIsEmpty = %d,bottomIsEmpty = %d",leftIsEmpty,rightIsEmpty,topIsEmpty,bottomIsEmpty);
+       
         if(leftIsEmpty||rightIsEmpty||bottomIsEmpty||topIsEmpty)
         {
             
@@ -561,9 +499,6 @@ bool leftIsEmpty, rightIsEmpty, topIsEmpty, bottomIsEmpty;
             
             
             
-            //[self showDialog];
-            
-            
         }
         
         
@@ -587,7 +522,7 @@ bool leftIsEmpty, rightIsEmpty, topIsEmpty, bottomIsEmpty;
     label.text=timeString;
 }
 
-
+/*拼图成功后的提示框*/
 -(void)showDialog{
     
     UIView* fullScreenView = [[UIView alloc]init];
@@ -624,72 +559,6 @@ bool leftIsEmpty, rightIsEmpty, topIsEmpty, bottomIsEmpty;
 -(void)closeDialog:(UIButton*)sender{
     [[self.view.window viewWithTag:101]removeFromSuperview];
 }
-
-/*-(void)click:(UIButton *)startButton{
-    if(!running){
-        paused=false;
-        start_date = [NSDate date];
-        
-        [startButton setTitle:@"Stop" forState:UIControlStateNormal];
-        
-        [resetButton setTitle:@"Pause" forState:UIControlStateNormal];
-        [resetButton setEnabled:true];
-        
-        if (clockTicks == nil) {
-            clockTicks = [NSTimer scheduledTimerWithTimeInterval:1.0/100.0
-                                                         target:self
-                                                       selector:@selector(updateTimer)
-                                                       userInfo:nil
-                                                        repeats:YES];
-        }
-        
-      }else{
-       
-        [startButton setTitle:@"Start" forState:UIControlStateNormal];
-        [startButton setEnabled:true];
-          [resetButton setTitle:@"Pause" forState:UIControlStateNormal];
-          [resetButton setEnabled:false];
-          [clockTicks invalidate];
-          clockTicks = nil;
-        
-    }
-    
-    running = !running;
-}
- 
-
--(void)stop:(UIButton *)resetButton{
-        if(!paused){
-            [resetButton setTitle:@"Resume" forState:UIControlStateNormal];
-            [resetButton setEnabled:true];
-            [startButton setTitle:@"Stop" forState:UIControlStateNormal];
-            [startButton setEnabled:true];
-            [clockTicks invalidate];
-            clockTicks=nil;
-            pause_date=[NSDate date];
-            
-        }
-        else{
-            NSTimeInterval secondsbetween= [pause_date timeIntervalSinceDate:start_date];
-            start_date=[NSDate dateWithTimeIntervalSinceNow:(-1)*secondsbetween];
-            
-            [resetButton setTitle:@"Pause" forState:UIControlStateNormal];
-            [resetButton setEnabled:true];
-            [startButton setTitle:@"Stop" forState:UIControlStateNormal];
-            [startButton setEnabled:false];
-            if (clockTicks == nil) {
-                clockTicks = [NSTimer scheduledTimerWithTimeInterval:1.0/100.0
-                                                              target:self
-                                                            selector:@selector(updateTimer)
-                                                            userInfo:nil
-                                                             repeats:YES];
-            }
-        }
-        
-        paused = !paused;
-    }
-
- */
 
 #pragma mark - 等分裁剪图片
 -(UIImage *)getImageWithImage:(UIImage *)image inRect:(CGRect) rect
